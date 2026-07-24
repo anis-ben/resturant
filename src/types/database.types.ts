@@ -36,7 +36,7 @@ export interface Database {
           updated_at: string;
         };
         Insert: Omit<Database['public']['Tables']['restaurant_settings']['Row'], 'id' | 'created_at' | 'updated_at'>;
-        Update: Partial<Database['public']['Tables']['restaurant_settings']['Insert']>;
+        Update: Partial<Database['public']['Tables']['restaurant_settings']['Row']>;
       };
       tables: {
         Row: {
@@ -47,7 +47,7 @@ export interface Database {
           created_at: string;
         };
         Insert: Omit<Database['public']['Tables']['tables']['Row'], 'id' | 'created_at'>;
-        Update: Partial<Database['public']['Tables']['tables']['Insert']>;
+        Update: Partial<Database['public']['Tables']['tables']['Row']>;
       };
       categories: {
         Row: {
@@ -58,7 +58,7 @@ export interface Database {
           created_at: string;
         };
         Insert: Omit<Database['public']['Tables']['categories']['Row'], 'id' | 'created_at'>;
-        Update: Partial<Database['public']['Tables']['categories']['Insert']>;
+        Update: Partial<Database['public']['Tables']['categories']['Row']>;
       };
       menu_items: {
         Row: {
@@ -74,7 +74,7 @@ export interface Database {
           created_at: string;
         };
         Insert: Omit<Database['public']['Tables']['menu_items']['Row'], 'id' | 'created_at'>;
-        Update: Partial<Database['public']['Tables']['menu_items']['Insert']>;
+        Update: Partial<Database['public']['Tables']['menu_items']['Row']>;
       };
       modifier_groups: {
         Row: {
@@ -87,7 +87,7 @@ export interface Database {
           created_at: string;
         };
         Insert: Omit<Database['public']['Tables']['modifier_groups']['Row'], 'id' | 'created_at'>;
-        Update: Partial<Database['public']['Tables']['modifier_groups']['Insert']>;
+        Update: Partial<Database['public']['Tables']['modifier_groups']['Row']>;
       };
       modifiers: {
         Row: {
@@ -98,7 +98,7 @@ export interface Database {
           created_at: string;
         };
         Insert: Omit<Database['public']['Tables']['modifiers']['Row'], 'id' | 'created_at'>;
-        Update: Partial<Database['public']['Tables']['modifiers']['Insert']>;
+        Update: Partial<Database['public']['Tables']['modifiers']['Row']>;
       };
       orders: {
         Row: {
@@ -118,7 +118,7 @@ export interface Database {
           updated_at: string;
         };
         Insert: Omit<Database['public']['Tables']['orders']['Row'], 'id' | 'order_number' | 'created_at' | 'updated_at'>;
-        Update: Partial<Database['public']['Tables']['orders']['Insert']>;
+        Update: Partial<Database['public']['Tables']['orders']['Row']>;
       };
       order_status_history: {
         Row: {
@@ -130,7 +130,7 @@ export interface Database {
           changed_at: string;
         };
         Insert: Omit<Database['public']['Tables']['order_status_history']['Row'], 'id' | 'changed_at'>;
-        Update: Partial<Database['public']['Tables']['order_status_history']['Insert']>;
+        Update: Partial<Database['public']['Tables']['order_status_history']['Row']>;
       };
       order_items: {
         Row: {
@@ -143,7 +143,7 @@ export interface Database {
           created_at: string;
         };
         Insert: Omit<Database['public']['Tables']['order_items']['Row'], 'id' | 'created_at'>;
-        Update: Partial<Database['public']['Tables']['order_items']['Insert']>;
+        Update: Partial<Database['public']['Tables']['order_items']['Row']>;
       };
       order_item_modifiers: {
         Row: {
@@ -153,7 +153,7 @@ export interface Database {
           extra_price: number;
         };
         Insert: Omit<Database['public']['Tables']['order_item_modifiers']['Row'], 'id'>;
-        Update: Partial<Database['public']['Tables']['order_item_modifiers']['Insert']>;
+        Update: Partial<Database['public']['Tables']['order_item_modifiers']['Row']>;
       };
       waiter_calls: {
         Row: {
@@ -164,7 +164,7 @@ export interface Database {
           created_at: string;
         };
         Insert: Omit<Database['public']['Tables']['waiter_calls']['Row'], 'id' | 'created_at'>;
-        Update: Partial<Database['public']['Tables']['waiter_calls']['Insert']>;
+        Update: Partial<Database['public']['Tables']['waiter_calls']['Row']>;
       };
       staff_users: {
         Row: {
@@ -175,7 +175,7 @@ export interface Database {
           created_at: string;
         };
         Insert: Omit<Database['public']['Tables']['staff_users']['Row'], 'created_at'>;
-        Update: Partial<Database['public']['Tables']['staff_users']['Insert']>;
+        Update: Partial<Database['public']['Tables']['staff_users']['Row']>;
       };
       payments: {
         Row: {
@@ -195,7 +195,7 @@ export interface Database {
           created_at: string;
         };
         Insert: Omit<Database['public']['Tables']['payments']['Row'], 'id' | 'change_due' | 'created_at'>;
-        Update: Partial<Database['public']['Tables']['payments']['Insert']>;
+        Update: Partial<Database['public']['Tables']['payments']['Row']>;
       };
     };
   };
