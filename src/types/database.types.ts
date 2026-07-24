@@ -1,0 +1,202 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
+
+export type TableStatus = 'available' | 'occupied' | 'reserved';
+export type OrderType = 'dine_in' | 'takeout' | 'delivery';
+export type OrderStatus = 'pending' | 'preparing' | 'ready' | 'out_for_delivery' | 'completed' | 'cancelled';
+export type WaiterCallType = 'call_waiter' | 'request_bill';
+export type WaiterCallStatus = 'pending' | 'resolved';
+export type StaffRole = 'admin' | 'cashier' | 'kitchen' | 'waiter';
+export type PaymentMethod = 'cash' | 'card' | 'online';
+export type PaymentStatus = 'paid' | 'voided' | 'refunded';
+
+export interface Database {
+  public: {
+    Tables: {
+      restaurant_settings: {
+        Row: {
+          id: string;
+          name_ar: string;
+          name_en: string | null;
+          is_open: boolean;
+          tax_rate: number;
+          delivery_fee: number;
+          min_delivery_order: number;
+          whatsapp_number: string | null;
+          phone_number: string | null;
+          address: string | null;
+          currency_symbol: string;
+          business_hours: Json;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['restaurant_settings']['Row'], 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Database['public']['Tables']['restaurant_settings']['Insert']>;
+      };
+      tables: {
+        Row: {
+          id: string;
+          table_number: number;
+          access_token: string;
+          status: TableStatus;
+          created_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['tables']['Row'], 'id' | 'created_at'>;
+        Update: Partial<Database['public']['Tables']['tables']['Insert']>;
+      };
+      categories: {
+        Row: {
+          id: string;
+          name_ar: string;
+          name_en: string | null;
+          sort_order: number;
+          created_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['categories']['Row'], 'id' | 'created_at'>;
+        Update: Partial<Database['public']['Tables']['categories']['Insert']>;
+      };
+      menu_items: {
+        Row: {
+          id: string;
+          category_id: string;
+          name: string;
+          description: string | null;
+          price: number;
+          image_url: string | null;
+          is_available: boolean;
+          badges: string[];
+          sort_order: number;
+          created_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['menu_items']['Row'], 'id' | 'created_at'>;
+        Update: Partial<Database['public']['Tables']['menu_items']['Insert']>;
+      };
+      modifier_groups: {
+        Row: {
+          id: string;
+          menu_item_id: string;
+          title: string;
+          is_required: boolean;
+          min_selection: number;
+          max_selection: number;
+          created_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['modifier_groups']['Row'], 'id' | 'created_at'>;
+        Update: Partial<Database['public']['Tables']['modifier_groups']['Insert']>;
+      };
+      modifiers: {
+        Row: {
+          id: string;
+          group_id: string;
+          name: string;
+          extra_price: number;
+          created_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['modifiers']['Row'], 'id' | 'created_at'>;
+        Update: Partial<Database['public']['Tables']['modifiers']['Insert']>;
+      };
+      orders: {
+        Row: {
+          id: string;
+          order_number: number;
+          type: OrderType;
+          table_id: string | null;
+          customer_name: string | null;
+          customer_phone: string | null;
+          delivery_address: string | null;
+          address_landmark: string | null;
+          status: OrderStatus;
+          total_amount: number;
+          notes: string | null;
+          cancelled_reason: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['orders']['Row'], 'id' | 'order_number' | 'created_at' | 'updated_at'>;
+        Update: Partial<Database['public']['Tables']['orders']['Insert']>;
+      };
+      order_status_history: {
+        Row: {
+          id: string;
+          order_id: string;
+          old_status: string | null;
+          new_status: string;
+          changed_by: string | null;
+          changed_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['order_status_history']['Row'], 'id' | 'changed_at'>;
+        Update: Partial<Database['public']['Tables']['order_status_history']['Insert']>;
+      };
+      order_items: {
+        Row: {
+          id: string;
+          order_id: string;
+          menu_item_id: string | null;
+          quantity: number;
+          unit_price: number;
+          notes: string | null;
+          created_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['order_items']['Row'], 'id' | 'created_at'>;
+        Update: Partial<Database['public']['Tables']['order_items']['Insert']>;
+      };
+      order_item_modifiers: {
+        Row: {
+          id: string;
+          order_item_id: string;
+          modifier_id: string | null;
+          extra_price: number;
+        };
+        Insert: Omit<Database['public']['Tables']['order_item_modifiers']['Row'], 'id'>;
+        Update: Partial<Database['public']['Tables']['order_item_modifiers']['Insert']>;
+      };
+      waiter_calls: {
+        Row: {
+          id: string;
+          table_id: string;
+          type: WaiterCallType;
+          status: WaiterCallStatus;
+          created_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['waiter_calls']['Row'], 'id' | 'created_at'>;
+        Update: Partial<Database['public']['Tables']['waiter_calls']['Insert']>;
+      };
+      staff_users: {
+        Row: {
+          id: string;
+          full_name: string;
+          role: StaffRole;
+          is_active: boolean;
+          created_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['staff_users']['Row'], 'created_at'>;
+        Update: Partial<Database['public']['Tables']['staff_users']['Insert']>;
+      };
+      payments: {
+        Row: {
+          id: string;
+          order_id: string;
+          cashier_id: string | null;
+          payment_method: PaymentMethod;
+          amount_due: number;
+          amount_tendered: number | null;
+          change_due: number;
+          discount_amount: number;
+          tax_amount: number;
+          receipt_number: string;
+          status: PaymentStatus;
+          void_reason: string | null;
+          printed_count: number;
+          created_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['payments']['Row'], 'id' | 'change_due' | 'created_at'>;
+        Update: Partial<Database['public']['Tables']['payments']['Insert']>;
+      };
+    };
+  };
+}
