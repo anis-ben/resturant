@@ -1,0 +1,39 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Runs every 3 days at 00:00 UTC to prevent Supabase project auto-pausing
+    - cron: '0 0 */3 * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        run: |
+          SUPABASE_URL="${{ secrets.SUPABASE_URL }}"
+          SUPABASE_ANON_KEY="${{ secrets.SUPABASE_ANON_KEY }}"
+
+          # Fallback to defaults if secrets are not set yet
+          if [ -z "$SUPABASE_URL" ]; then
+            SUPABASE_URL="https://llgkwvvtjlpcxaiinhgq.supabase.co/rest/v1/"
+          fi
+
+          if [ -z "$SUPABASE_ANON_KEY" ]; then
+            SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxsZ2t3dnZ0amxwY3hhaWluaGdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4OTc4MjEsImV4cCI6MjEwMDQ3MzgyMX0.qf-TT8NzC9MlwMC-yBg_wj-ne-2XAPJHJfdmQojtf2c"
+          fi
+
+          echo "Pinging Supabase at $SUPABASE_URL..."
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            "$SUPABASE_URL")
+
+          echo "Response HTTP Status: $HTTP_STATUS"
+
+          if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 204 ]; then
+            echo "Successfully pinged Supabase! Project is active."
+          else
+            echo "Warning: Received HTTP status $HTTP_STATUS from Supabase."
+          fi
