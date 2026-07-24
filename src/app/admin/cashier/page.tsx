@@ -28,7 +28,9 @@ interface CashierOrderItem {
   order_item_modifiers: { id: string; modifiers: { name: string } | null }[];
 }
 
-interface CashierOrder extends Database['public']['Tables']['orders']['Row'] {
+type OrderRow = Database['public']['Tables']['orders']['Row'];
+
+interface CashierOrder extends OrderRow {
   tables: { table_number: number } | null;
   payments: CashierPayment[];
   order_items: CashierOrderItem[];
