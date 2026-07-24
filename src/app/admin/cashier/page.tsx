@@ -6,7 +6,7 @@ import { fetchRestaurantSettings, RestaurantSettings } from '@/services/settings
 import { formatCurrency } from '@/utils/formatters';
 import { Button } from '@/components/ui/Button';
 import { Skeleton } from '@/components/ui/Skeleton';
-import { Database, OrderType, OrderStatus } from '@/types/database.types';
+import { Database, OrderType } from '@/types/database.types';
 import { Receipt, Search, CreditCard, Banknote, RefreshCcw, Bike, CheckCircle2, Printer, ChefHat } from 'lucide-react';
 import { AdminNav } from '@/components/layout/AdminNav';
 
@@ -109,13 +109,13 @@ export default function CashierPage() {
 
   // Action 1: Cashier sends order to kitchen (updates status to 'preparing')
   const handleSendToKitchen = async (orderId: string) => {
-    await supabase.from('orders').update({ status: 'preparing' as OrderStatus }).eq('id', orderId);
+    await supabase.from('orders').update({ status: 'preparing' }).eq('id', orderId);
     fetchOrders();
   };
 
   // Action 2: Cashier hands delivery order to driver
   const handleSendToDelivery = async (orderId: string) => {
-    await supabase.from('orders').update({ status: 'out_for_delivery' as OrderStatus }).eq('id', orderId);
+    await supabase.from('orders').update({ status: 'out_for_delivery' }).eq('id', orderId);
     fetchOrders();
   };
 

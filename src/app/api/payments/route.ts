@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { getAdminSupabase } from '@/lib/supabase/admin';
 import { PaymentSettlementSchema } from '@/types/zod.schemas';
 import { checkRateLimit } from '@/lib/rate-limiter';
-import { OrderStatus } from '@/types/database.types';
 
 /**
  * POST /api/payments
@@ -101,7 +100,7 @@ export async function POST(request: Request) {
     // Update order status to completed
     await adminSupabase
       .from('orders')
-      .update({ status: 'completed' as OrderStatus })
+      .update({ status: 'completed' })
       .eq('id', order_id);
 
     return NextResponse.json({
