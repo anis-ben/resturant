@@ -109,13 +109,13 @@ export default function CashierPage() {
 
   // Action 1: Cashier sends order to kitchen (updates status to 'preparing')
   const handleSendToKitchen = async (orderId: string) => {
-    await supabase.from('orders').update({ status: 'preparing', updated_at: new Date().toISOString() }).eq('id', orderId);
+    await supabase.from('orders').update({ status: 'preparing' as OrderStatus }).eq('id', orderId);
     fetchOrders();
   };
 
   // Action 2: Cashier hands delivery order to driver
   const handleSendToDelivery = async (orderId: string) => {
-    await supabase.from('orders').update({ status: 'out_for_delivery', updated_at: new Date().toISOString() }).eq('id', orderId);
+    await supabase.from('orders').update({ status: 'out_for_delivery' as OrderStatus }).eq('id', orderId);
     fetchOrders();
   };
 
