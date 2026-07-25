@@ -88,6 +88,8 @@ export default function MenuManagementPage() {
         price: parseFloat(itemPrice) || 0,
         image_url: imageUrl || null,
         is_available: true,
+        badges: [] as string[],
+        sort_order: 0,
       };
 
       const { error } = await supabase.from('menu_items').insert(payload);
