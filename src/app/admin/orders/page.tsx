@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRealtimeOrders } from '@/hooks/useRealtimeOrders';
+import { useRealtimeOrders, OrderWithDetails, WaiterCallRow } from '@/hooks/useRealtimeOrders';
 import { useOfflineQueue } from '@/hooks/useOfflineQueue';
 import { activateAudio, isAudioEnabled } from '@/services/audio.service';
 import { StatusBadge } from '@/components/ui/Badge';
@@ -10,9 +10,6 @@ import { formatCurrency, formatElapsedTime } from '@/utils/formatters';
 import { ChefHat, Bell, Volume2, Printer, Clock, Bike, ShoppingBag, Utensils, Send, CheckCircle2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase/client';
 import { AdminNav } from '@/components/layout/AdminNav';
-import type { Database } from '@/types/database.types';
-
-type WaiterCallRow = Database['public']['Tables']['waiter_calls']['Row'];
 
 export default function KDSOrdersPage() {
   const { orders, waiterCalls, isLoading, refetch, refetchCalls } = useRealtimeOrders();
