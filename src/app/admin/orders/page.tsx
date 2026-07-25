@@ -10,6 +10,9 @@ import { formatCurrency, formatElapsedTime } from '@/utils/formatters';
 import { ChefHat, Bell, Volume2, Printer, Clock, Bike, ShoppingBag, Utensils, Send, CheckCircle2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase/client';
 import { AdminNav } from '@/components/layout/AdminNav';
+import type { Database } from '@/types/database.types';
+
+type WaiterCallRow = Database['public']['Tables']['waiter_calls']['Row'];
 
 export default function KDSOrdersPage() {
   const { orders, waiterCalls, isLoading, refetch, refetchCalls } = useRealtimeOrders();
@@ -87,7 +90,7 @@ export default function KDSOrdersPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-              {waiterCalls.map((call: WaiterCallRow) => (
+              {waiterCalls.map((call) => (
                 <div
                   key={call.id}
                   className="bg-dark-900 border border-amber-500/40 rounded-xl p-3 flex items-center justify-between"
